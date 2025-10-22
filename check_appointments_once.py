@@ -106,7 +106,7 @@ class DresdnAppointmentChecker:
             print(final_element)
 
             # Check if we got an error page
-            if not final_element or 'Fehlermeldung' in main_element:
+            if not final_element or 'Fehlermeldung' in main_element.get_text():
                 return False, "⚠️ Something went wrong"
             
             # Step 6: Check the final page for appointments
@@ -114,7 +114,7 @@ class DresdnAppointmentChecker:
             # Check for the "no appointments" message
             no_appointments_text = "Derzeit sind alle verfügbaren Termine ausgebucht"
             
-            if final_element and no_appointments_text in final_element:
+            if final_element and no_appointments_text in final_element.get_text():
                 return False, "❌ No appointments available"
             else:
                 # The apology text is not present, appointments might be available!
