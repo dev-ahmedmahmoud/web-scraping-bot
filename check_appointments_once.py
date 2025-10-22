@@ -88,9 +88,7 @@ class DresdnAppointmentChecker:
             for input_field in form.find_all('input'):
                 name = input_field.get('name')
                 value = input_field.get('value', '')
-                if name and input_field.get('type') == 'hidden':
-                    print(name)
-                    print(value)
+                if name:
                     form_data[name] = value
 
             set_cookie = f"{set_cookie}; {'tvo_cookie_accept=0'}"
