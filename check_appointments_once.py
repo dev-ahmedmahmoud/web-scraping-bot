@@ -110,11 +110,10 @@ class DresdnAppointmentChecker:
             
             # Step 6: Check the final page for appointments
             print("  Step 4: Checking appointment availability...")
-            final_page_text = response.text
             # Check for the "no appointments" message
-            no_appointments_text = "Derzeit sind alle verfügbaren Termine ausgebucht. Bitte versuchen Sie es zu einem späteren Zeitpunkt"
+            no_appointments_text = "Derzeit sind alle verfügbaren Termine ausgebucht"
             
-            if no_appointments_text in final_page_text:
+            if no_appointments_text in main_element:
                 return False, "❌ No appointments available"
             else:
                 # The apology text is not present, appointments might be available!
