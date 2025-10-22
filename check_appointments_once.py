@@ -101,7 +101,10 @@ class DresdnAppointmentChecker:
             response = self.session.post(self.final_url, data=form_data, headers=headers, timeout=30)
             response.raise_for_status()
             print(response.status_code)
-            
+
+            # Check if we got an error page
+            if 'Fehlermeldung' in response.text.lower():
+                return False, "⚠️ Something went wrong"
             
             # Step 6: Check the final page for appointments
             print("  Step 4: Checking appointment availability...")
