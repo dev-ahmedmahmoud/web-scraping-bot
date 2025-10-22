@@ -102,6 +102,7 @@ class DresdnAppointmentChecker:
 
             soup = BeautifulSoup(response.text, 'html.parser')
             main_element = soup.find("div", class_="content")
+            print(main_element)
 
             # Check if we got an error page
             if 'Fehlermeldung' in main_element:
