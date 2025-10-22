@@ -148,10 +148,11 @@ class DresdnAppointmentChecker:
         
         # Send email if appointments are available and state changed
         if available and self.last_state != available:
-            self.send_email(
-                "🎉 Dresden Ausländerbehörde Appointments Available!",
-                f"{message}\n\nGo to: {self.base_url}/select2?md=1\n\nTime detected: {datetime.now()}\n\nBook immediately before they're gone!"
-            )
+            #self.send_email(
+                #"🎉 Dresden Ausländerbehörde Appointments Available!",
+                #f"{message}\n\nGo to: {self.base_url}/select2?md=1\n\nTime detected: {datetime.now()}\n\nBook immediately before they're gone!"
+            #)
+            print("🎉 Dresden Ausländerbehörde Appointments Available!")
         
         self.last_state = available
         return available
