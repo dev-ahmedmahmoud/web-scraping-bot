@@ -88,7 +88,7 @@ class DresdnAppointmentChecker:
             for input_field in form.find_all('input'):
                 name = input_field.get('name')
                 value = input_field.get('value', '')
-                if name and input_field.get('type') === 'hidden':
+                if name and input_field.get('type') == 'hidden':
                     print(name)
                     print(value)
                     form_data[name] = value
