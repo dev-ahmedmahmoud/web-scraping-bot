@@ -61,7 +61,7 @@ class DresdnAppointmentChecker:
             soup = BeautifulSoup(response.text, 'html.parser')
             
             # Check if we got an error page
-            if 'Fehlermeldung' in response.text.lower():
+            if 'fehlermeldung' in response.text.lower():
                 return False, "⚠️ Cookie issue"
             
             # Verify we see the Ausländerbehörde location
@@ -107,7 +107,7 @@ class DresdnAppointmentChecker:
             print(main_element)
 
             # Check if we got an error page
-            if 'Fehlermeldung' in response.text.lower():
+            if 'fehlermeldung' in main_element:
                 return False, "⚠️ Something went wrong"
             
             # Step 6: Check the final page for appointments
