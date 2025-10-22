@@ -92,7 +92,9 @@ class DresdnAppointmentChecker:
                     print(name)
                     print(value)
                     form_data[name] = value
-            
+
+            set_cookie = f"{set_cookie}; {'tvo_cookie_accept=0'}"
+            print(set_cookie)
             response = self.session.post(self.final_url, data=form_data, headers=headers, timeout=30)
             response.raise_for_status()
             
