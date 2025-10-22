@@ -9,6 +9,7 @@ on:
 jobs:
   check-appointments:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     
     steps:
     - name: Checkout code
@@ -29,5 +30,5 @@ jobs:
         SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
         RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
       run: |
-        python check_appointments_once.py
+        python -u check_appointments_once.py
         
