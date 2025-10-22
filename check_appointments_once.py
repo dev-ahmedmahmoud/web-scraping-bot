@@ -93,7 +93,7 @@ class DresdnAppointmentChecker:
                     print(value)
                     form_data[name] = value
             
-            response = self.session.post(self.final_url, data=form_data, timeout=30)
+            response = self.session.post(self.final_url, data=form_data, headers=headers, timeout=30)
             response.raise_for_status()
             
             # Step 6: Check the final page for appointments
