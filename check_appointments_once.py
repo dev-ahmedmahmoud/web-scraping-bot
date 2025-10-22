@@ -88,22 +88,16 @@ class DresdnAppointmentChecker:
             for input_field in form.find_all('input'):
                 name = input_field.get('name')
                 value = input_field.get('value', '')
-                print(name)
-                print(value)
-                if name:
+                if name and input_field.get('type') === 'hidden':
+                    print(name)
+                    print(value)
                     form_data[name] = value
             
-            action = form.get('action', '')
-            if action.startswith('/'):
-                form_url = self.base_url + action
-            else:
-                form_url = self.base_url + '/' + action
-            print(form_url)
-            response = self.session.post(form_url, data=form_data, timeout=30)
+            response = self.session.post(self.final_url, data=form_data, timeout=30)
             response.raise_for_status()
             
             # Step 6: Check the final page for appointments
-            print("  Step 6: Checking appointment availability...")
+            print("  Step 4: Checking appointment availability...")
             final_page_text = response.text
             print(final_page_text)
             # Check for the "no appointments" message
