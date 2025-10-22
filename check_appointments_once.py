@@ -50,11 +50,10 @@ class DresdnAppointmentChecker:
             set_cookie = response.headers.get("Set-Cookie")
             if not set_cookie:
                 return False, "⚠️ Session error - set-cookie was not found"
-            print(set_cookie)
 
             print("  Step 2: Jumping to location page...")
             headers = {
-                "Cookie": cookie_value
+                "Cookie": set_cookie
             }
             response = self.session.get(self.final_url, headers=headers, timeout=30)
             response.raise_for_status()
