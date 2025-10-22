@@ -102,6 +102,7 @@ class DresdnAppointmentChecker:
             response.raise_for_status()
             print(response.status_code)
 
+            soup = BeautifulSoup(response.text, 'html.parser')
             main_element = soup.find("main", class_="container wrapper")
             print(main_element)
 
