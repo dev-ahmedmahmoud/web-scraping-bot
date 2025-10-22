@@ -95,8 +95,13 @@ class DresdnAppointmentChecker:
 
             set_cookie = f"{set_cookie}; {'tvo_cookie_accept=0'}"
             print(set_cookie)
+            headers = {
+                "Cookie": set_cookie
+            }
             response = self.session.post(self.final_url, data=form_data, headers=headers, timeout=30)
             response.raise_for_status()
+            print(response.status_code)
+            
             
             # Step 6: Check the final page for appointments
             print("  Step 4: Checking appointment availability...")
