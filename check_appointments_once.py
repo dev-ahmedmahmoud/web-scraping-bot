@@ -216,12 +216,16 @@ if __name__ == "__main__":
     email_config = {
         'smtp_server': 'smtp.gmail.com',
         'smtp_port': 587,
-        'sender_email': 'YOUR_EMAIL@gmail.com',  # Replace with your email
-        'sender_password': 'YOUR_APP_PASSWORD',   # Replace with Gmail app password
-        'recipient_email': 'YOUR_EMAIL@gmail.com' # Replace with recipient email
+        'sender_email': os.getenv('SENDER_EMAIL'),
+        'sender_password': os.getenv('SENDER_PASSWORD'),
+        'recipient_email': os.getenv('RECIPIENT_EMAIL')
     }
-    
-    # Create checker instance
+
+    # Sanity check: warn if required secrets missing
+    missing = [k for k, v in email_config.items() if v is None]
+    if missing:
+        print(f"⚠️ Missing email config from environment: {missing}")
+
     checker = DresdnAppointmentChecker(email_config)
     
     # Run continuously (checks every 5 minutes)
