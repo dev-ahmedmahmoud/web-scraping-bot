@@ -102,10 +102,12 @@ class DresdnAppointmentChecker:
 
             soup = BeautifulSoup(response.text, 'html.parser')
             main_element = soup.find("div", class_="content")
-            print(main_element)
+            soup = BeautifulSoup(main_element, 'html.parser')
+            final_element = soup.find("div", class_="row")
+            print(final_element)
 
             # Check if we got an error page
-            if 'Fehlermeldung' in main_element:
+            if not final_element or 'Fehlermeldung' in main_element:
                 return False, "⚠️ Something went wrong"
             
             # Step 6: Check the final page for appointments
@@ -113,7 +115,7 @@ class DresdnAppointmentChecker:
             # Check for the "no appointments" message
             no_appointments_text = "Derzeit sind alle verfügbaren Termine ausgebucht"
             
-            if no_appointments_text in main_element:
+            if final_element and no_appointments_text in final_element:
                 return False, "❌ No appointments available"
             else:
                 # The apology text is not present, appointments might be available!
