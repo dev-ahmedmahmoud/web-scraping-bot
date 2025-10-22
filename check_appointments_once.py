@@ -46,16 +46,24 @@ class DresdnAppointmentChecker:
             print("  Step 1: Loading initial page...")
             response = self.session.get(self.start_url, timeout=30)
             response.raise_for_status()
-            
+
+            set_cookie = response.headers.get("Set-Cookie")
+            if not set_cookie:
+                return False, "⚠️ Session error - set-cookie was not found"
+            print(set_cookie)
+
             print("  Step 2: Jumping to location page...")
-            response = self.session.get(self.final_url, timeout=30)
+            headers = {
+                "Cookie": cookie_value
+            }
+            response = self.session.get(self.final_url, headers=headers, timeout=30)
             response.raise_for_status()
             
             soup = BeautifulSoup(response.text, 'html.parser')
             
             # Check if we got an error page
             if 'fehler' in response.text.lower() or 'error' in response.text.lower():
-                return False, "⚠️ Session error - cookie issue detected"
+                return False, response.text
             
             # Verify we see the Ausländerbehörde location
             page_text = response.text
