@@ -162,7 +162,7 @@ class DresdnAppointmentChecker:
             
             msg.attach(MIMEText(body, 'plain'))
             
-            with smtplib.SMTP(self.email_config['smtp_server'], self.email_config['smtp_port']) as server:
+            with smtplib.SMTP(self.email_config['smtp_server'], self.email_config['smtp_port'], timeout=30) as server:
                 server.starttls()
                 server.login(self.email_config['sender_email'], self.email_config['sender_password'])
                 server.send_message(msg)
