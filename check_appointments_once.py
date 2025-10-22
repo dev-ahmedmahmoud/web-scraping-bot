@@ -92,18 +92,15 @@ class DresdnAppointmentChecker:
                     form_data[name] = value
 
             set_cookie = f"{set_cookie}; {'tvo_cookie_accept=0'}"
-            print(set_cookie)
             headers = {
                 "Cookie": set_cookie
             }
             response = self.session.post(self.final_url, data=form_data, headers=headers, timeout=30)
             response.raise_for_status()
-            print(response.status_code)
 
             soup = BeautifulSoup(response.text, 'html.parser')
             main_element = soup.find("div", class_="content")
             final_element = main_element.find("div", class_="row") if main_element else None
-            print(final_element)
 
             # Check if we got an error page
             if not final_element or 'Fehlermeldung' in main_element.get_text():
@@ -155,10 +152,10 @@ class DresdnAppointmentChecker:
         
         # Send email if appointments are available and state changed
         if available and self.last_state != available:
-            #self.send_email(
-                #"🎉 Dresden Ausländerbehörde Appointments Available!",
-                #f"{message}\n\nGo to: {self.base_url}/select2?md=1\n\nTime detected: {datetime.now()}\n\nBook immediately before they're gone!"
-            #)
+            self.send_email(
+                "🎉 Dresden Ausländerbehörde Appointments Available!",
+                f"{message}\n\nGo to: {self.base_url}/select2?md=1\n\nTime detected: {datetime.now()}\n\nBook immediately before they're gone!"
+            )
             print("🎉 Dresden Ausländerbehörde Appointments Available!")
         
         self.last_state = available
