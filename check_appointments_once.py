@@ -107,7 +107,7 @@ class DresdnAppointmentChecker:
             print(main_element)
 
             # Check if we got an error page
-            if 'fehlermeldung' in main_element:
+            if 'Fehlermeldung' in main_element:
                 return False, "⚠️ Something went wrong"
             
             # Step 6: Check the final page for appointments
