@@ -229,6 +229,4 @@ if __name__ == "__main__":
 
     checker = DresdnAppointmentChecker(email_config)
     
-    # Run continuously (checks every 5 minutes)
-    # For more frequent checks, reduce the interval (in seconds)
-    checker.run_continuously(check_interval=300)  # 300 seconds = 5 minutes
+    checker.run_once()
