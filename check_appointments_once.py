@@ -88,6 +88,8 @@ class DresdnAppointmentChecker:
             for input_field in form.find_all('input'):
                 name = input_field.get('name')
                 value = input_field.get('value', '')
+                print(name)
+                print(value)
                 if name:
                     form_data[name] = value
             
@@ -96,7 +98,7 @@ class DresdnAppointmentChecker:
                 form_url = self.base_url + action
             else:
                 form_url = self.base_url + '/' + action
-            
+            print(form_url)
             response = self.session.post(form_url, data=form_data, timeout=30)
             response.raise_for_status()
             
