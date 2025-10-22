@@ -73,7 +73,8 @@ class DresdnAppointmentChecker:
                 form_url = self.base_url + action
             else:
                 form_url = self.base_url + '/' + action
-            
+
+            print(form_url)
             response = self.session.post(form_url, data=form_data, timeout=30)
             response.raise_for_status()
             
