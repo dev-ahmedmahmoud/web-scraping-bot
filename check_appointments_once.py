@@ -61,8 +61,8 @@ class DresdnAppointmentChecker:
             soup = BeautifulSoup(response.text, 'html.parser')
             
             # Check if we got an error page
-            if 'fehler' in response.text.lower() or 'error' in response.text.lower():
-                return False, response.text
+            if 'Fehlermeldung' in response.text.lower():
+                return False, "⚠️ Cookie issue"
             
             # Verify we see the Ausländerbehörde location
             page_text = response.text
