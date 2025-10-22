@@ -102,6 +102,9 @@ class DresdnAppointmentChecker:
             response.raise_for_status()
             print(response.status_code)
 
+            main_element = soup.find("main", class_="container wrapper")
+            print(main_element)
+
             # Check if we got an error page
             if 'Fehlermeldung' in response.text.lower():
                 return False, "⚠️ Something went wrong"
