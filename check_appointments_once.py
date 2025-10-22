@@ -23,6 +23,7 @@ class DresdnAppointmentChecker:
         """
         self.base_url = "https://termine-buergerbuero.dresden.de"
         self.start_url = f"{self.base_url}/select2?md=1"
+        self.final_url = f"{self.base_url}/location?mdt=9&select_cnc=1&cnc-442=1"
         self.email_config = email_config
         self.session = requests.Session()
         self.session.headers.update({
@@ -46,51 +47,8 @@ class DresdnAppointmentChecker:
             response = self.session.get(self.start_url, timeout=30)
             response.raise_for_status()
             
-            soup = BeautifulSoup(response.text, 'html.parser')
-            
-            # Step 2: Click "Weiter mit 1" button
-            print("  Step 2: Submitting initial form...")
-            weiter_button = soup.find('input', {'type': 'submit', 'value': 'Weiter mit 1'})
-            
-            if not weiter_button:
-                return False, "⚠️ Could not find 'Weiter mit 1' button"
-            
-            # Get form data
-            form = weiter_button.find_parent('form')
-            if not form:
-                return False, "⚠️ Could not find form element"
-            
-            form_data = {}
-            for input_field in form.find_all('input'):
-                name = input_field.get('name')
-                value = input_field.get('value', '')
-                if name:
-                    form_data[name] = value
-            
-            # Submit the form
-            action = form.get('action', '')
-            if action.startswith('/'):
-                form_url = self.base_url + action
-            else:
-                form_url = self.base_url + '/' + action
-
-            print(form_url)
-            response = self.session.post(form_url, data=form_data, timeout=30)
-            response.raise_for_status()
-            
-            # Step 3: Accept terms and conditions
-            # Note: The checkbox and OK button are standalone elements with JavaScript
-            # Since we're using requests (not a browser), the JavaScript won't execute
-            # The modal acceptance is likely handled client-side and doesn't affect the session
-            # We can proceed directly to the location page as the cookie is already set
-            print("  Step 3: Modal acceptance (handled via session)...")
-            
-            # Step 4: Navigate to location page
-            print("  Step 4: Loading location page...")
-            location_url = f"{self.base_url}/location?mdt=9&select_cnc=1&cnc-442=1"
-            
-            # The cookie should already be set from previous requests
-            response = self.session.get(location_url, timeout=30)
+            print("  Step 2: Jumping to location page...")
+            response = self.session.get(self.final_url, timeout=30)
             response.raise_for_status()
             
             soup = BeautifulSoup(response.text, 'html.parser')
@@ -105,7 +63,7 @@ class DresdnAppointmentChecker:
                 return False, "⚠️ Could not find expected location information"
             
             # Step 5: Click "Weiter" button to proceed to appointment page
-            print("  Step 5: Proceeding to appointment selection...")
+            print("  Step 3: Proceeding to appointment selection...")
             weiter_button = soup.find('input', {'type': 'submit', 'value': 'Weiter', 'id': 'WeiterButton'})
             
             if not weiter_button:
